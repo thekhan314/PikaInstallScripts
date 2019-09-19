@@ -1,6 +1,9 @@
 #!/bin/bash
+SUPPORTPW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
 CONFPATH="/opt/bitnami/apache2/conf/"
 HTDOCSPATH="/opt/bitnami/apache2/htdocs/"
+BITNAMIPASS=`cat /home/bitnami/bitnami_application_password`
+
 
 if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
 
@@ -25,7 +28,14 @@ wget --quiet -P $HTDOCSPATH https://github.com/aworley/ocm/archive/master.zip
   mv ${HTDOCSPATH}ocm-master/cms-custom ${HTDOCSPATH}cms-custom
   rm -rf ${HTDOCSPATH}ocm-master
   rm -rf ${HTDOCSPATH}master.zip
-  sed -i 's/htdocs/htdocs\/cms/g' "${CONFPATH}httpd.conf"
-  sed -i 's/htdocs/htdocs\/cms/g' "${CONFPATH}bitnami/bitnami.conf"
+#  sed -i 's/htdocs/htdocs\/cms/g' "${CONFPATH}httpd.conf"
+#  sed -i 's/htdocs/htdocs\/cms/g' "${CONFPATH}bitnami/bitnami.conf"
   apachectl restart
+  mysql -uroot -p${BITNAMIPASS} -e "create database cms"
+  cat ${HTDOCSPATH}cms/app/sql/install/new_install.sql | mysql -uroot -p${BITNAMIPASS} cms
+  sed -i "s/'db_password' => ''/'db_password' => '${BITNAMIPASS}'/" ${HTDOCSPATH}cms-custom/config/settings.php
+  mysql -uroot -p${bitnamipass} -e "update users set username='support', password=md5('${SUPPORTPW}')" cms
+  sed -i '172,175 {s/^/\/\//}' ${HTDOCSPATH}cms/app/lib/pikaAuth.php
+  echo "You can log into your OCM instance with username support and password of " ${SUPPORTPW}
+  
 fi
