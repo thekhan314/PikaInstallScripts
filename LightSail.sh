@@ -3,7 +3,7 @@ if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
 SUPPORTPW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
 CONFPATH="/opt/bitnami/apache2/conf/"
 HTDOCSPATH="/opt/bitnami/apache2/htdocs/"
-BITNAMIPASS=`cat /home/bitnami/bitnami_application_password`
+BITNAMIPASS=$(cat /home/bitnami/bitnami_application_password)
 
 
 if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
