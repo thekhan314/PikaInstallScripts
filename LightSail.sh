@@ -40,6 +40,6 @@ wget --quiet -P $HTDOCSPATH https://github.com/aworley/ocm/archive/master.zip
   sed -i '172,175 {s/^/\/\//}' ${HTDOCSPATH}cms/app/lib/pikaAuth.php
   rm ${HTDOCSPATH}index.html
   echo "<html><head></head><body>You have reached this page in error. Please click <a href=\"/cms/\">here</a></body></html>" > ${HTDOCSPATH}index.html
-  echo "You can now log into your OCM instance with username support and password of \n\n" ${SUPPORTPW}
+  echo -e "You can now log into your OCM instance with username support and password of \n\n"${SUPPORTPW}"\n"
   
 fi
