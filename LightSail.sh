@@ -1,5 +1,6 @@
 #!/bin/bash
 if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
+sleep 3m
 SUPPORTPW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
 CONFPATH="/opt/bitnami/apache2/conf/"
 HTDOCSPATH="/opt/bitnami/apache2/htdocs/"
@@ -37,6 +38,8 @@ wget --quiet -P $HTDOCSPATH https://github.com/aworley/ocm/archive/master.zip
   sed -i "s/'db_password' => ''/'db_password' => '${BITNAMIPASS}'/" ${HTDOCSPATH}cms-custom/config/settings.php
   mysql -uroot -p${BITNAMIPASS} -e "update users set username='support', password=md5('${SUPPORTPW}')" cms
   sed -i '172,175 {s/^/\/\//}' ${HTDOCSPATH}cms/app/lib/pikaAuth.php
-  echo "You can log into your OCM instance with username support and password of " ${SUPPORTPW}
+  rm ${HTDOCSPATH}index.html
+  echo "<html><head></head><body>You have reached this page in error. Please click <a href=\"/cms/\">here</a></body></html>" > ${HTDOCSPATH}index.html
+  echo "You can now log into your OCM instance with username support and password of " ${SUPPORTPW}
   
 fi
