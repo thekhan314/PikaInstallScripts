@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
-sleep 3m
+sleep 1m
 SUPPORTPW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
 CONFPATH="/opt/bitnami/apache2/conf/"
 HTDOCSPATH="/opt/bitnami/apache2/htdocs/"
