@@ -35,7 +35,7 @@ wget --quiet -P $HTDOCSPATH https://github.com/aworley/ocm/archive/master.zip
   mysql -uroot -p${BITNAMIPASS} -e "create database cms"
   cat ${HTDOCSPATH}cms/app/sql/install/new_install.sql | mysql -uroot -p${BITNAMIPASS} cms
   sed -i "s/'db_password' => ''/'db_password' => '${BITNAMIPASS}'/" ${HTDOCSPATH}cms-custom/config/settings.php
-  mysql -uroot -p${bitnamipass} -e "update users set username='support', password=md5('${SUPPORTPW}')" cms
+  mysql -uroot -p${BITNAMIPASS} -e "update users set username='support', password=md5('${SUPPORTPW}')" cms
   sed -i '172,175 {s/^/\/\//}' ${HTDOCSPATH}cms/app/lib/pikaAuth.php
   echo "You can log into your OCM instance with username support and password of " ${SUPPORTPW}
   
