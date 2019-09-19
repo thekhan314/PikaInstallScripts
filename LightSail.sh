@@ -41,5 +41,5 @@ wget --quiet -P $HTDOCSPATH https://github.com/aworley/ocm/archive/master.zip
   rm ${HTDOCSPATH}index.html
   echo "<html><head></head><body>You have reached this page in error. Please click <a href=\"/cms/\">here</a></body></html>" > ${HTDOCSPATH}index.html
   echo "You can now log into your OCM instance with username support and password of " ${SUPPORTPW}
-  apt-get -y install percona-toolkit
+  apt-get -qq -y install percona-toolkit
 fi
