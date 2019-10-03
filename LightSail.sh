@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ `id -u` -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
-SUPPORTPW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
+SUPPORTPW='password'
 CONFPATH="/opt/bitnami/apache2/conf/"
 HTDOCSPATH="/opt/bitnami/apache2/htdocs/"
 if ! [[ -f /home/bitnami/bitnami_application_password  ]] ; then echo "The Bitnami app password file does not exist yet. Please wait a few moments and attempt to run the script again." ; exit 1 ; fi
